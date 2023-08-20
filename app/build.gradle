@@ -81,4 +81,7 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.5.2'
     kapt 'androidx.room:room-compiler:2.5.2'
     implementation 'androidx.room:room-paging:2.5.2'
+
+    // Accompanist swipe-to-refresh
+    implementation 'com.google.accompanist:accompanist-swiperefresh:0.28.0'
 }
