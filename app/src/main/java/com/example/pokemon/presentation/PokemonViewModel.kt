@@ -9,8 +9,12 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.example.pokemon.PokemonApplication
 import com.example.pokemon.data.datasource.PokemonListResponse
+import com.example.pokemon.data.datasource.PokemonPageSource
 import com.example.pokemon.data.repository.PokemonRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -40,16 +44,23 @@ class PokemonViewModel(
         getPokemons()
     }
 
+    val pokemonsPager = Pager(
+        config = PagingConfig(
+            pageSize = DEFAULT_LIMIT,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            PokemonPageSource(pokemonRepository, DEFAULT_LIMIT)
+        }).flow.cachedIn(viewModelScope)
+
     fun getPokemons(offset: Int = DEFAULT_OFFSET, limit: Int = DEFAULT_LIMIT) {
 
         viewModelScope.launch {
             _isLoadingPokemons.value = true
             networkUiState = try {
-
                 val pokemonList = pokemonRepository.getPokemons(offset, limit)
                 _isLoadingPokemons.value = false
                 NetworkUiState.Success(pokemonList)
-
             } catch (e: IOException) {
                 _isLoadingPokemons.emit(false)
                 NetworkUiState.Error("Could not connect to the server. Please check your internet connection and try again")

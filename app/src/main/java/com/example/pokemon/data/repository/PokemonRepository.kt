@@ -3,7 +3,6 @@ package com.example.pokemon.data.repository
 import com.example.pokemon.data.datasource.PokemonDto
 import com.example.pokemon.data.datasource.PokemonListResponse
 
-
 interface PokemonRepository {
 
     suspend fun getPokemons(offset: Int, limit: Int): PokemonListResponse
