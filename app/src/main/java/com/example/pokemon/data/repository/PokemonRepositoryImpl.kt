@@ -1,15 +1,9 @@
 package com.example.pokemon.data.repository
 
-import com.example.pokemon.data.datasource.PokemonDto
-import com.example.pokemon.data.datasource.PokemonListResponse
-
-interface PokemonRepository {
-
-    suspend fun getPokemons(offset: Int, limit: Int): PokemonListResponse
-
-    suspend fun getPokemInfo(id: Int): PokemonDto
-
-}
+import com.example.pokemon.data.datasource.api.PokemonDto
+import com.example.pokemon.data.datasource.api.PokemonListResponse
+import com.example.pokemon.data.datasource.api.PokemonApi
+import com.example.pokemon.data.datasource.api.PokemonRepository
 
 class PokemonRepositoryImpl(private val pokemonApi: PokemonApi) : PokemonRepository {
     override suspend fun getPokemons(offset: Int, limit: Int): PokemonListResponse {

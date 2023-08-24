@@ -1,7 +1,5 @@
-package com.example.pokemon.data.repository
+package com.example.pokemon.data.datasource.api
 
-import com.example.pokemon.data.datasource.PokemonDto
-import com.example.pokemon.data.datasource.PokemonListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,7 +11,7 @@ interface PokemonApi {
         @Query("limit") limit: Int
     ): PokemonListResponse
 
-    @GET("item/{id}")
+    @GET("pokemon/{id}")
     suspend fun getPokemInfo(
         @Path("id") id: Int
     ) : PokemonDto

@@ -8,6 +8,6 @@ class PokemonApplication: Application() {
     lateinit var container: AppContainer
     override fun onCreate() {
         super.onCreate()
-        container = PokemonAppContainer()
+        container = PokemonAppContainer(this)
     }
 }
