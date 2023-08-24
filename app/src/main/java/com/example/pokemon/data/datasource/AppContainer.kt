@@ -40,7 +40,7 @@ class PokemonAppContainer(applicationContext: Context) : AppContainer {
         Room.databaseBuilder(
             applicationContext,
             PokemonDatabase::class.java,
-            "beers.db"
+            "pokemon.db"
         ).build()
     }
 

@@ -4,6 +4,6 @@ interface PokemonRepository {
 
     suspend fun getPokemons(offset: Int, limit: Int): PokemonListResponse
 
-    suspend fun getPokemInfo(id: Int): PokemonDto
+    suspend fun getPokemonInfo(id: Int): PokemonDto
 
 }

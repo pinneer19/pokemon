@@ -10,7 +10,7 @@ class PokemonRepositoryImpl(private val pokemonApi: PokemonApi) : PokemonReposit
         return pokemonApi.getPokemons(offset, limit)
     }
 
-    override suspend fun getPokemInfo(id: Int): PokemonDto {
-        return pokemonApi.getPokemInfo(id)
+    override suspend fun getPokemonInfo(id: Int): PokemonDto {
+        return pokemonApi.getPokemonInfo(id)
     }
 }

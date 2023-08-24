@@ -12,7 +12,7 @@ interface PokemonApi {
     ): PokemonListResponse
 
     @GET("pokemon/{id}")
-    suspend fun getPokemInfo(
+    suspend fun getPokemonInfo(
         @Path("id") id: Int
     ) : PokemonDto
 

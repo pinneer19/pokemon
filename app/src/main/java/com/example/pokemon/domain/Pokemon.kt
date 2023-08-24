@@ -1,17 +1,29 @@
-package com.example.pokemon.data.datasource
+package com.example.pokemon.domain
 
 import com.google.gson.annotations.SerializedName
 
-
-data class PokemonDto(
+data class Pokemon(
     val id: Int,
     val name: String,
     val weight: Int,
     val height: Int,
     val types: List<PokemonType>,
-    var sprites: PokemonSprites
+    val sprites: PokemonSprites
+) {
+    fun selectPokemonFrontSprite(): String {
+        return listOf(
+            sprites.frontDefault,
+            sprites.frontShiny,
+            sprites.frontFemale,
+            sprites.frontShinyFemale
+        )
+            .firstOrNull { it != null } ?: ""
+    }
 
-)
+    fun getStringTypes(): String {
+        return this.types.filter { it.type?.name != null }.joinToString { it.type!!.name!! }
+    }
+}
 
 data class PokemonType(
     val slot: Int?,
