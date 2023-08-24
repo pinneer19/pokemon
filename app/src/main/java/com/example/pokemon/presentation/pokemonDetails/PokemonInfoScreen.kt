@@ -1,11 +1,11 @@
 package com.example.pokemon.presentation.pokemonDetails
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -32,25 +32,32 @@ import com.example.pokemon.domain.Pokemon
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PokemonInfoScreen(pokemon: Pokemon, modifier: Modifier = Modifier, onReturnClicked: () -> Unit) {
+fun PokemonInfoScreen(
+    pokemon: Pokemon,
+    modifier: Modifier = Modifier,
+    onReturnClicked: () -> Unit
+) {
 
-    Scaffold(topBar = {
-        TopAppBar(title = { Text(text = "Pokemon info") }, actions = {
-            IconButton(
-                onClick = onReturnClicked
-                ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.error_icon),
-                    contentDescription = null
-                )
-            }
-        })
-    }) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Pokemon info") },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onReturnClicked
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_keyboard_arrow_left_24),
+                            contentDescription = null
+                        )
+                    }
+                })
+        }
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier
-                .fillMaxSize()
-                .padding(top = 60.dp)
+            verticalArrangement = Arrangement.Center,
+            modifier = modifier.fillMaxSize()
         ) {
             Text(
                 text = pokemon.name,
@@ -71,7 +78,7 @@ fun PokemonInfoScreen(pokemon: Pokemon, modifier: Modifier = Modifier, onReturnC
                 text = "Types: ${pokemon.getStringTypes()}",
                 style = MaterialTheme.typography.bodyLarge
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Card(
                 elevation = CardDefaults.cardElevation(4.dp),
                 shape = RoundedCornerShape(16.dp),
@@ -80,9 +87,11 @@ fun PokemonInfoScreen(pokemon: Pokemon, modifier: Modifier = Modifier, onReturnC
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(pokemon.selectPokemonFrontSprite())
+                        .error(R.drawable.baseline_broken_image_24)
                         .crossfade(true)
                         .build(),
                     contentDescription = null,
+
                     filterQuality = FilterQuality.None,
                     modifier = Modifier.fillMaxSize()
                 )
