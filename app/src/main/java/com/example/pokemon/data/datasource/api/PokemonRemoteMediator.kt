@@ -15,24 +15,19 @@ import java.io.IOException
 class PokemonRemoteMediator(
     private val pokemonDb: PokemonDatabase,
     private val pokemonRepo: PokemonRepository
-): RemoteMediator<Int, PokemonPreviewEntity>() {
+) : RemoteMediator<Int, PokemonPreviewEntity>() {
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, PokemonPreviewEntity>
     ): MediatorResult {
 
         return try {
-            val loadKey = when(loadType) {
+            val loadKey = when (loadType) {
                 LoadType.REFRESH -> 0
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
-                    if(lastItem == null) {
-                        0
-                    } else {
-                        (lastItem.url.dropLast(1).substringAfterLast('/').toInt() / state.config.pageSize) + 1
-                    }
-
+                    lastItem?.url?.dropLast(1)?.substringAfterLast('/')?.toInt() ?: 0
                 }
             }
 
@@ -42,7 +37,7 @@ class PokemonRemoteMediator(
             )
 
             pokemonDb.withTransaction {
-                if(loadType == LoadType.REFRESH) {
+                if (loadType == LoadType.REFRESH) {
                     pokemonDb.dao.clearAll()
                 }
                 val pokemonPreviewEntities = pokemons.results.map { it.toPokemonPreviewEntity() }
@@ -52,11 +47,9 @@ class PokemonRemoteMediator(
             MediatorResult.Success(
                 endOfPaginationReached = pokemons.results.isEmpty()
             )
-        }
-        catch (e: IOException) {
+        } catch (e: IOException) {
             MediatorResult.Error(e)
-        }
-        catch (e: HttpException) {
+        } catch (e: HttpException) {
             MediatorResult.Error(e)
         }
     }
